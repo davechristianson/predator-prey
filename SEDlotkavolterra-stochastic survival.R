@@ -31,12 +31,12 @@ newlv <- new("odeModel",                                                        
           main = function (time, init, parms) { ## Execute a function with the given inputs
               with(as.list(c(init, parms)), {
                   morts <- rbinom(1,ceiling(Npred),1-survival)  # makes predator mortalities stochastic drawn randomly from binomial distriubtion
-                  dprey <-   rexp * Nprey * (1-(Nprey/mean(rbinom(15,preyK,0.65)) - kill * Nprey * Npred  ## prey side of LV 
+                  dprey <-   rexp * Nprey * (1-(Nprey/preyK)) - kill * Nprey * Npred  ## prey side of LV 
                   dpred <-  -(morts) + kill*con * Nprey * Npred          ## predator side of LV
                   list(c(dprey, dpred))                                               ## end of function
               })
           },
-          parms  = c(rexp = 0.33, kill = 0.00025, con=0.05,survival = 0.65,preyK=30000,  ## parameter settings for LV
+          parms  = c(rexp = 0.33, kill = 0.00025, con=0.05,survival = 0.65,preyK=(mean(rbinom(15,30000,0.65)),  ## parameter settings for LV
           times  = c(from = 0, to = 100, by = 1),                                      ## time span to play out pop dynamics
           init   = c(Nprey = 10000, Npred = 250),                                       ## initial population sizes 
           solver = "rk4"                                                              ## specify method for solving the ordinary differential equations
@@ -44,6 +44,10 @@ newlv <- new("odeModel",                                                        
 
 newlvout<-sim(newlv)  ## run simulation with given parameters
 plot(newlvout)        ## plot simulation with given parameters
+
+
 out(newlvout)    ## output from simulation with given parameters
 
+cbind(out(newlvout)$Npred,out(newlvout)$Npred - c(out(newlvout)$Npred[-1],NA),
+      (out(newlvout)$Npred - c(out(newlvout)$Npred[-1],NA))/out(newlvout)$Npred)
 
