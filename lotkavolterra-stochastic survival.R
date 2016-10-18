@@ -31,7 +31,8 @@ newlv <- new("odeModel",                                                        
           main = function (time, init, parms) { ## Execute a function with the given inputs
               with(as.list(c(init, parms)), {
                   morts <- rbinom(1,ceiling(Npred),1-survival)  # makes predator mortalities stochastic drawn randomly from binomial distriubtion
-                  dprey <-   rexp * Nprey * (1-(Nprey/mean(rbinom(15,preyK,0.65)) - kill * Nprey * Npred  ## prey side of LV 
+                  carryingcapacity<-round(rnorm(1,preyK,2000),0)
+                  dprey <-   rexp * Nprey * (1-(Nprey/carryingcapacity) - kill * Nprey * Npred  ## prey side of LV 
                   dpred <-  -(morts) + kill*con * Nprey * Npred          ## predator side of LV
                   list(c(dprey, dpred))                                               ## end of function
               })
@@ -44,10 +45,3 @@ newlv <- new("odeModel",                                                        
 
 newlvout<-sim(newlv)  ## run simulation with given parameters
 plot(newlvout)        ## plot simulation with given parameters
-
-
-out(newlvout)    ## output from simulation with given parameters
-
-cbind(out(newlvout)$Npred,out(newlvout)$Npred - c(out(newlvout)$Npred[-1],NA),
-      (out(newlvout)$Npred - c(out(newlvout)$Npred[-1],NA))/out(newlvout)$Npred)
-
