@@ -36,7 +36,7 @@ newlv <- new("odeModel",                                                        
                   list(c(dprey, dpred))                                               ## end of function
               })
           },
-          parms  = c(rexp = 0.33, kill = 0.00025, con=0.05,survival = 0.65,preyK=25000),  ## parameter settings for LV
+          parms  = c(rexp = 0.33, kill = 0.00025, con=0.05,survival = 0.65,preyK=mean(rbinom(15,30000,0.65),  ## parameter settings for LV
           times  = c(from = 0, to = 100, by = 1),                                      ## time span to play out pop dynamics
           init   = c(Nprey = 10000, Npred = 250),                                       ## initial population sizes 
           solver = "rk4"                                                              ## specify method for solving the ordinary differential equations
