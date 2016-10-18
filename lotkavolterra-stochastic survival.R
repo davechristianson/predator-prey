@@ -48,6 +48,4 @@ plot(newlvout)        ## plot simulation with given parameters
 
 out(newlvout)    ## output from simulation with given parameters
 
-cbind(out(newlvout)$Npred,out(newlvout)$Npred - c(out(newlvout)$Npred[-1],NA),
-      (out(newlvout)$Npred - c(out(newlvout)$Npred[-1],NA))/out(newlvout)$Npred)
 
