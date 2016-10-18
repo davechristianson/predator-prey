@@ -44,8 +44,6 @@ newlv <- new("odeModel",                                                        
 
 newlvout<-sim(newlv)  ## run simulation with given parameters
 plot(newlvout)        ## plot simulation with given parameters
-
-
 out(newlvout)    ## output from simulation with given parameters
 
 
